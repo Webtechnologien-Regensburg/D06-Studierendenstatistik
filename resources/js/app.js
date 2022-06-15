@@ -1,16 +1,27 @@
-// Expliziter Import des StatsRequest-Funktion aus der Modul-Datei
 import StatsRequest from "./stats/StatsRequest.js";
-// Impliziter Import des Default-Export (ChartView-Prototypen) aus der Modul-Datei
 import ChartView from "./ui/ChartView.js";
 
-// Einstiegspunkt in die Anwendung: Diese Funktion wird beim Laden der Website aufgerufen (siehe letzte Zeile dieser Datei)
-async function initChartView() {
-    let statsRequest = new StatsRequest("data/studierendenstatistik.json"), // Erstellen des StatsRequests
-        canvasEl = document.querySelector("canvas.chart"), // Selektion des Canvas-Elements aus dem DOM
-        chart = new ChartView(canvasEl), // Erstellen des neuen ChartViews
-        data = await statsRequest.run(); // Anfordern der Studierendenstatistik
-    chart.renderData(data);
+let chartView;
 
+function initChartView() {
+    chartView = new ChartView(document.querySelector("canvas.chart"));
+    document.querySelector("input[name=\"minYear\"]").addEventListener("change", onRangeSelectorChanged);
+    document.querySelector("input[name=\"maxYear\"]").addEventListener("change", onRangeSelectorChanged);
+}
+
+function onRangeSelectorChanged() {
+    let minYear = document.querySelector(".min input").value,
+        maxYear = document.querySelector(".max input").value;
+    document.querySelector(".min .value").innerHTML = minYear;
+    document.querySelector(".max .value").innerHTML = maxYear;
+    updateChartView(minYear, maxYear);
+}
+
+async function updateChartView(rangeFrom, rangeTo) {
+    let statsRequest = new StatsRequest("data/studierendenstatistik.json", rangeFrom, rangeTo),
+        data = await statsRequest.run();
+    chartView.setData(data);
 }
 
 initChartView();
+updateChartView();

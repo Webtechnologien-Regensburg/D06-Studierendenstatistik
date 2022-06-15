@@ -1,121 +1,92 @@
 /* global Chart */
 
-/**
- * Dieses Modul bündelt alle Funktionen und Werte, die für die Darstellung der Statistik via Chart.js 
- * benötigt werden. Die Funktionen werden in Form eines Prototypen exportiert, der an anderen Stellen
- * der Anwendung verwendet werden kann und über dessen Methoden die Darstellung der Daten ausgelöst
- * werden kann.
- */
+const BAR_BACKGROUND_COLOR = "#e83f6fff",
+    BAR_BORDER_WIDTH = 0,
+    GRID_TEXT_COLOR = "#ffffffff",
+    LABEL_DATASET = "Studierende",
+    LABEL_X_AXIS = "Studienjahr",
+    LABEL_Y_AXIS = "Anzahl Studierende";
 
-/** 
- * Alle Werte, die für die Darstellung und das "Styling" des Graphen benötigt werden, werden hier in
- * Konstanten bereitgestellt.
- */
-const DEFAULT_CHART_TYPE = "bar",
-    DEFAULT_BAR_BACKGROUND_COLOR = "rgba(230, 175, 46, 0.5)",
-    DEFAULT_BAR_BORDER_COLOR = "rgb(230, 175, 46)",
-    DEFAULT_BAR_BORDER_WIDTH = 2,
-    DEFAULT_LABEL_COLOR = "rgb(25, 23, 22)",
-    DEFAULT_LABEL_FONT_SIZE = 14,
-    DEFAULT_AXES_LABEL_COLOR = "rgb(190, 183, 164)",
-    DEFAULT_AXES_LABEL_FONT_SIZE = 20,
-    Y_LABEL_STRING = "Anzahl der Studierenden",
-    X_LABEL_STRING = "Studienjahr";
-
-// Die Methode erstellt einen leeren Chart.js Graphen in dem Canvas-Element, dessen Kontext übergeben wurde   
-function createChartInContext(context) {
-    // Die Struktur dieses Objekts wird durch die Chart.js-Bibliothek vorgegeben. Wir ändern nur dort wo 
-    // notwendig die Attributswerte, um den Graphen hinsichtlich seiner Gestaltung an unserer Wünsche anzupassen.
+function createChart(context, stats) {
     return new Chart(context, {
-        type: DEFAULT_CHART_TYPE,
+        type: "bar",
         data: {
-            labels: null,
-            datasets: [],
+            labels: createLabelsForChart(stats),
+            datasets: createDataSet(stats),
         },
         options: {
-            legend: {
-                display: false,
+            plugins: {
+                legend: {
+                    display: false,
+                },
             },
             scales: {
-                yAxes: [{
-                    ticks: {
-                        fontColor: DEFAULT_LABEL_COLOR,
-                        fontSize: DEFAULT_LABEL_FONT_SIZE,
-                        fontStyle: "bold",
-                        beginAtZero: true,
-                    },
-                    scaleLabel: {
+                x: {
+                    title: {
+                        text: LABEL_X_AXIS,
                         display: true,
-                        fontColor: DEFAULT_AXES_LABEL_COLOR,
-                        fontSize: DEFAULT_AXES_LABEL_FONT_SIZE,
-                        labelString: Y_LABEL_STRING,
+                        color: GRID_TEXT_COLOR,
                     },
-                }],
-                xAxes: [{
                     ticks: {
-                        fontColor: DEFAULT_LABEL_COLOR,
-                        fontSize: DEFAULT_LABEL_FONT_SIZE,
-                        fontStyle: "bold",
-                        stepSize: 1,
+                        color: GRID_TEXT_COLOR,
                     },
-                    scaleLabel: {
+                    grid: {
+                        display: false,
+                    },
+                },
+                y: {
+                    title: {
+                        text: LABEL_Y_AXIS,
                         display: true,
-                        fontColor: DEFAULT_AXES_LABEL_COLOR,
-                        fontSize: DEFAULT_AXES_LABEL_FONT_SIZE,
-                        labelString: X_LABEL_STRING,
+                        color: GRID_TEXT_COLOR,
                     },
-                }],
+                    ticks: {
+                        color: GRID_TEXT_COLOR,
+                    },
+                    grid: {
+                        color: GRID_TEXT_COLOR,
+                        drawTicks: false,
+                    },
+                },
             },
         },
     });
 }
 
-// Diese Methode generiert ein DataSet aus den per AJAX geholten Statistiken, das kompatible mit Chart.js ist
-function createDataSetForChart(label, data) {
+function createDataSet(stats) {
     let dataset = {
-        label: label,
-        backgroundColor: DEFAULT_BAR_BACKGROUND_COLOR,
-        borderColor: DEFAULT_BAR_BORDER_COLOR,
-        borderWidth: DEFAULT_BAR_BORDER_WIDTH,
+        label: LABEL_DATASET,
+        backgroundColor: BAR_BACKGROUND_COLOR,
+        borderWidth: BAR_BORDER_WIDTH,
         data: [],
     };
-    for (let i = 0; i < data.length; i++) {
-        dataset.data.push(data[i].value);
+    for (let i = 0; i < stats.data.length; i++) {
+        dataset.data.push(stats.data[i].value);
     }
-    return dataset;
+    return [dataset];
 }
 
-// Diese Methode erstellt die Labels für die einzelnen Daten auf der x-Achse (hier: Jahre)
-function createLabelsForChart(data) {
+function createLabelsForChart(stats) {
     let labels = [];
-    for (let i = 0; i < data.length; i++) {
-        labels.push(data[i].year);
+    for (let i = 0; i < stats.data.length; i++) {
+        labels.push(stats.data[i].year);
     }
     return labels;
 }
 
-/**
- * Prototype, mit dem andere Komponenten die Funktionalität dieses Moduls nutzten können.
- * Jedes Objekt, das auf Basis diesen Prototyp erstellt wird, repräsentiert einen Graphen.
- */
 class ChartView {
 
-    // Erstellt das Objekt und bereitet einen leeren Graphen im übergebenen Canvas vor
     constructor(canvas) {
-        let context = canvas.getContext("2d");
-        this.chart = createChartInContext(context);
+        this.context = canvas.getContext("2d");
     }
 
-    // Stellt die übergebenen Daten (Statistiken über die Studierendenanzahl) im vorbereiteten Graphen dar 
-    renderData(data) {
-        let dataset = createDataSetForChart(data.label, data.data),
-            labels = createLabelsForChart(data.data);
-        this.chart.data.datasets.push(dataset);
-        this.chart.data.labels = labels;
-        this.chart.update();
+    setData(stats) {
+        if (this.chart) {
+            this.chart.destroy();
+        }
+        this.chart = createChart(this.context, stats);
     }
 
 }
 
-// Export des ChartView-Prototypen für andere Module
 export default ChartView;

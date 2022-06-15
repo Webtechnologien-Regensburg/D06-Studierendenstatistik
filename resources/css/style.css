@@ -1,32 +1,62 @@
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap');
+
+:root {
+    --amber: #ffbf00ff;
+    --paradise-pink: #e83f6fff;
+    --star-command-blue: #2274a5ff;
+    --illuminating-emerald: #32936fff;
+    --white: #ffffffff;
+    --smoky-black: #0b0a07ff;
+}
+
 body {
-    /* Display & Box Model */
-    width: 100%;
+    width: 100vw;
     margin: 0 auto;
     padding: 0;
-    /* Text */
-    font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
-    color: rgb(25, 23, 22);
+    background-color: var(--smoky-black);
+    font-family: 'Space Grotesk', sans-serif;
+    color: var(--white);
 }
 
 h1 {
-	margin: 0;
-    padding: 2vh 10vw;
-    background-color: rgb(230, 175, 46);
-	color: rgb(255,255,255);
-    letter-spacing: 2px;
+    margin: 0;
+    background-color: var(--amber);
     text-align: center;
+    line-height: 2em;
+    letter-spacing: 2px;
+    color: var(--white);
 }
 
 .info {
     width: 70vw;
-    margin: 2vh auto;
+    margin: 5vh auto;
+    text-align: justify;
+    line-height: 1.5em;
+    font-size: 1.25em;
 }
 
 .info a {
-    color: rgb(61, 52, 139);
+    color: var(--amber);
 }
 
 .chart-container {
     width: 70vw;
     margin: 0 auto;
+}
+
+.chart-controls {
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    bottom: 2vw;
+    right: 2vw;
+}
+
+.chart-controls .year-selector {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    gap: 10px;
+    min-width: 10vw;
+    
 }
