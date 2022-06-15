@@ -1,0 +1,32 @@
+body {
+    /* Display & Box Model */
+    width: 100%;
+    margin: 0 auto;
+    padding: 0;
+    /* Text */
+    font-family: "Lucida Sans Unicode", "Lucida Grande", sans-serif;
+    color: rgb(25, 23, 22);
+}
+
+h1 {
+	margin: 0;
+    padding: 2vh 10vw;
+    background-color: rgb(230, 175, 46);
+	color: rgb(255,255,255);
+    letter-spacing: 2px;
+    text-align: center;
+}
+
+.info {
+    width: 70vw;
+    margin: 2vh auto;
+}
+
+.info a {
+    color: rgb(61, 52, 139);
+}
+
+.chart-container {
+    width: 70vw;
+    margin: 0 auto;
+}

@@ -1,0 +1,92 @@
+{
+    "description": "Studierende pro Studienjahr an der Universität Regensburg",
+    "source": "https://www.uni-regensburg.de/universitaet/zahlen-daten-fakten/index.html",
+    "updated": "Wed Jun 17 09:44:57 CEST 2020",
+    "data": [
+    {
+        "year": 2000,
+        "value": 14416
+    },
+    {
+        "year": 2001,
+        "value": 14540
+    },
+    {
+        "year": 2002,
+        "value": 15044
+    },
+    {
+        "year": 2003,
+        "value": 15829
+    },
+    {
+        "year": 2004,
+        "value": 17321
+    },
+    {
+        "year": 2005,
+        "value": 17188
+    },
+    {
+        "year": 2006,
+        "value": 17371
+    },
+    {
+        "year": 2007,
+        "value": 17115
+    },
+    {
+        "year": 2008,
+        "value": 16741
+    },
+    {
+        "year": 2009,
+        "value": 16774
+    },
+    {
+        "year": 2010,
+        "value": 17136
+    },
+    {
+        "year": 2011,
+        "value": 18951
+    },
+
+    {
+        "year": 2012,
+        "value": 19054
+    },
+    {
+        "year": 2013,
+        "value": 20186
+    },
+    {
+        "year": 2014,
+        "value": 20186
+    },
+    {
+        "year": 2015,
+        "value": 20321
+    },
+    {
+        "year": 2016,
+        "value": 20294
+    },
+    {
+        "year": 2017,
+        "value": 20001
+    },
+    {
+        "year": 2018,
+        "value": 20003
+    },
+    {
+        "year": 2019,
+        "value": 20055
+    },
+    {
+        "year": 2020,
+        "value": 19704
+    }
+]}
+
